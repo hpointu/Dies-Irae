@@ -14,13 +14,13 @@ MainWindow::MainWindow(QWidget *parent) :
 	world->setSceneRect(-110, -150, 220, 200);
 
 
-	ui->graphicsView->setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
+//	ui->graphicsView->setViewportUpdateMode(QGraphicsView::NoViewportUpdate);
 	ui->graphicsView->setRenderHint(QPainter::Antialiasing);
-//	ui->graphicsView->scale(2, 2);
+	ui->graphicsView->scale(2, 2);
 	ui->graphicsView->setScene(world);
 
 
-	world->startTimer(4);
+	world->startTimer(12);
 }
 
 MainWindow::~MainWindow()

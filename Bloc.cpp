@@ -1,5 +1,5 @@
 #include "Bloc.h"
-
+#include <QGraphicsScene>
 Bloc::Bloc(b2World *w, QGraphicsItem *parent) :
 	QGraphicsPolygonItem(parent),
 	world(w),
@@ -42,8 +42,7 @@ void Bloc::setup()
 
 QVariant Bloc::itemChange(GraphicsItemChange change, const QVariant &value)
 {
-	if(change == QGraphicsItem::ItemPositionHasChanged
-	   || change == QGraphicsItem::ItemPositionChange)
+	if(change == QGraphicsItem::ItemPositionHasChanged)
 	{
 		if(!active)
 			actualizeBody();
@@ -54,17 +53,21 @@ QVariant Bloc::itemChange(GraphicsItemChange change, const QVariant &value)
 void Bloc::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
 	active = false;
+	body->SetType(b2_kinematicBody);
 }
 
 void Bloc::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
 	setPos(mapToScene(event->pos()));
+	event->accept();
+//	QGraphicsItem::mouseMoveEvent(event);
 }
 
 void Bloc::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
 	active = true;
 	body->SetAwake(true);
+	body->SetType(b2_dynamicBody);
 }
 
 void Bloc::actualizeBody()

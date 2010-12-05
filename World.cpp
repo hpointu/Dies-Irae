@@ -7,7 +7,6 @@ World::World(QObject *parent) :
 
 	world = new b2World(b2Vec2(0.0f, -9.81f), true);
 
-
 	b2BodyDef bodyDef;
 	b2PolygonShape shape;
 	b2FixtureDef fixtureDef;
@@ -45,8 +44,8 @@ World::World(QObject *parent) :
 
 void World::timerEvent(QTimerEvent *event)
 {
-	float32 tstep = 1.0f/60.0f;
-	world->Step(tstep, 10, 10);
+	float32 tstep = 1.0f/25.0f;
+	world->Step(tstep, 2, 2);
 	for(int i=0; i<blocs->size(); i++)
 		blocs->at(i)->adjust();
 	QObject::timerEvent(event);
