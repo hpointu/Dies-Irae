@@ -6,7 +6,7 @@
 
 QT       += core gui
 
-TARGET = box2d
+TARGET = DiesIrae
 TEMPLATE = app
 
 
