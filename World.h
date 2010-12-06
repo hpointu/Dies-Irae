@@ -1,32 +1,33 @@
 #ifndef WORLD_H
 #define WORLD_H
 
-#include <Box2D.h>
-#include <QObject>
-#include <QGraphicsScene>
+#include <Box2D/Box2D.h>
+#include <SFML/Graphics.hpp>
 
 #include "Bloc.h"
+#include <vector>
 
-class World : public QGraphicsScene
+class World
 {
 
 public:
-	explicit World(QObject *parent = 0);
+	explicit World();
 
 	void addHorizontal();
 	void addVertical();
 
-protected:
-	void timerEvent(QTimerEvent *event);
-
-
-
+	void render(sf::RenderTarget *target);
+	void step();
+	
 private:
-	QList<Bloc*> *blocs;
+//	QList<Bloc*> *blocs;
+	std::vector<Bloc*> *blocs;
 	b2Body *ground;
 	b2World *world;
-
-	QPolygonF poly;
+	sf::Shape groundShape;
+	
+	
+//	QPolygonF poly;
 
 	Bloc* createBloc();
 

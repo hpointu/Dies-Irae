@@ -1,8 +1,11 @@
 CXX = 		g++
 LD = 			g++
-LDFLAGS = 	-lsfml-graphics -lsfml-window -lsfml-system
+LDFLAGS = 	-lsfml-graphics -lsfml-window -lsfml-system -lBox2D
 
-SRC =		main.cpp 
+SRC =		main.cpp \
+			PausableClock.cpp \
+			World.cpp \
+			Bloc.cpp
 
 OBJ = 	$(SRC:.c=.o)	
 
