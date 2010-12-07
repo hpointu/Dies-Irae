@@ -25,6 +25,8 @@ public:
 	void step();
 
 	void rotateCanon(int offset = 5);
+	void changeCanonPower(float offset);
+
 	void shoot();
 	
 private:

@@ -15,7 +15,7 @@ public:
 	void actualizeBody();
 	sf::Shape* getDrawable();
 
-	void stretch(int offset = 5);
+	void stretch(float offset = 5);
 
 private:
 	b2World *world;

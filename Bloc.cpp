@@ -21,8 +21,9 @@ sf::Shape* Bloc::getDrawable()
 	return &drawable;
 }
 
-void Bloc::stretch(int offset)
+void Bloc::stretch(float offset)
 {
+	offset /= SCALE;
 	if(width+offset > 0)
 	{
 		width += offset;

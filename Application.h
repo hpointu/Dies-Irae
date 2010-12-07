@@ -5,22 +5,32 @@
 #include "World.h"
 #include "PausableClock.cpp"
 #include "Utils.h"
+#include "Singleton.h"
 
-class Application
+class Application : public Singleton<Application>
 {
+	friend class Singleton<Application>;
+
 public:
-    Application();
-
+	void setup();
 	void run();
-private:
-	void eventManager();
 
+	float getCurrentZoom();
+
+private:
+	Application();
+	void eventManager();
 	bool running;
+
+	float currentZoom;
 
 	Utils::MouseMode mouseMode;
 
-	World world;
+	World *world;
 	sf::RenderWindow window;
+	sf::View *view;
+
+	sf::Vector2f clickPos;
 };
 
 #endif // APPLICATION_H

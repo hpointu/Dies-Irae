@@ -10,8 +10,9 @@ int main(int argc, char *argv[])
 {
 	srand(time(0));
 
-	Application app;
-	app.run();
+	Application *app = Application::getInstance();
+	app->setup();
+	app->run();
 
 	return 0;
 }

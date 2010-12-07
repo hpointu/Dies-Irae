@@ -17,3 +17,4 @@ Canon.cpp
 Ball.h
 Ball.cpp
 Const.h
+Singleton.h

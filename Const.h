@@ -1,5 +1,5 @@
 #ifndef CONST_H
 #define CONST_H
 
-#define SCALE 5
+#define SCALE 15
 #endif // CONST_H

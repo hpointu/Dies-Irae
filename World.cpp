@@ -2,6 +2,7 @@
 #include "Const.h"
 #include <iostream>
 #include <math.h>
+#include "Application.h"
 
 World::World() :
 		inactiveBloc(0)
@@ -16,9 +17,12 @@ World::World() :
 	b2FixtureDef fixtureDef;
 	fixtureDef.shape = &shape;
 
-	groundShape = sf::Shape::Rectangle(-350.f/SCALE, -10.f/SCALE, 350.f/SCALE, 10.f/SCALE, sf::Color(0,0,0,0), -1.f/SCALE, sf::Color(255,255,255));
+	groundShape = sf::Shape::Rectangle(-350.f/SCALE, -10.f/SCALE, 350.f/SCALE, 10.f/SCALE,
+									   sf::Color(0,0,0,0),
+									   -1.f/Application::getInstance()->getCurrentZoom(),
+									   sf::Color(255,255,255));
 
-	groundShape.SetPosition(0, 0);
+	groundShape.SetPosition(0, 150.f/SCALE);
 	
 	bodyDef.position.Set(groundShape.GetPosition().x, -groundShape.GetPosition().y);
 
@@ -38,13 +42,18 @@ World::World() :
 
 
 	canon = new Canon();
-	canon->getDrawable()->SetPosition(-350.f/SCALE, -15.f/SCALE);
+	canon->getDrawable()->SetPosition(-350.f/SCALE, 135.f/SCALE);
 }
 
 
 void World::rotateCanon(int offset)
 {
 	canon->rotate(offset);
+}
+
+void World::changeCanonPower(float offset)
+{
+	canon->changePower(offset);
 }
 
 void World::shoot()
@@ -56,11 +65,11 @@ void World::shoot()
 
 	float rot = canon->getDrawable()->GetRotation();
 	rot = Utils::deg2rad(rot);
-	float x = 50000*cos(rot);
-	float y = 50000*sin(rot);
+	float x = (10+(canon->getPower()*20))*cos(rot);
+	float y = (10+(canon->getPower()*20))*sin(rot);
 
-	std::cout << "rot: " << rot << std::endl;
-	std::cout << x << "," << y << std::endl;
+//	std::cout << "rot: " << rot << std::endl;
+//	std::cout << x << "," << y << std::endl;
 
 	ball->impulse(x, y);
 }
