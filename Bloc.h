@@ -15,11 +15,16 @@ public:
 	void actualizeBody();
 	sf::Shape* getDrawable();
 
+	void stretch(int offset = 5);
+
 private:
 	b2World *world;
 	b2Body *body;
 	sf::Shape drawable;
 	bool active;
+
+	float width;
+	float height;
 };
 
 #endif // BLOC_H

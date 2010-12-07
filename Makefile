@@ -5,7 +5,10 @@ LDFLAGS = 	-lsfml-graphics -lsfml-window -lsfml-system -lBox2D
 SRC =		main.cpp \
 			PausableClock.cpp \
 			World.cpp \
-			Bloc.cpp
+			Bloc.cpp \
+			Application.cpp \
+			Canon.cpp \
+			Ball.cpp
 
 OBJ = 	$(SRC:.c=.o)	
 

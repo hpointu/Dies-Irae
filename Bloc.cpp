@@ -1,14 +1,18 @@
 #include "Bloc.h"
 #include <iostream>
-Bloc::Bloc(b2World *w) :
-	world(w),
-	body(0),
-	active(true)
-{
-	drawable = sf::Shape::Rectangle(-10.f, -2.f, 10.f, 2.f, sf::Color(255,255,0,0), -1.f, sf::Color(100,180,0));
+#include "Const.h"
 
-	drawable.SetPosition(35+(rand()%80)*2, (rand()%10)*2);
-	drawable.SetRotation(rand()%360);
+Bloc::Bloc(b2World *w) :
+		world(w),
+		body(0),
+		active(true),
+		width(50.f/SCALE),
+		height(8.f/SCALE)
+{
+	drawable = sf::Shape::Rectangle(-width/2, -height/2, width/2, height/2, sf::Color(255,255,0,0), -1.f/SCALE, sf::Color(100,180,0));
+
+	drawable.SetPosition(35/SCALE+(rand()%80/SCALE)*2, (rand()%10/SCALE)*2);
+
 
 }
 
@@ -17,31 +21,29 @@ sf::Shape* Bloc::getDrawable()
 	return &drawable;
 }
 
+void Bloc::stretch(int offset)
+{
+	if(width+offset > 0)
+	{
+		width += offset;
+		sf::Shape n = sf::Shape::Rectangle(-width/2, -height/2, width/2, height/2, sf::Color(255,255,0,0), -1.f/SCALE, sf::Color(100,180,0));;
+		n.SetPosition(drawable.GetPosition());
+		n.SetRotation(drawable.GetRotation());
+		drawable = n;
+	}
+}
+
 void Bloc::setup()
 {
-
-
 	b2BodyDef bodyDef;
 	bodyDef.type = b2_dynamicBody;
 	bodyDef.position.Set(drawable.GetPosition().x, -drawable.GetPosition().y);
 	bodyDef.angle = (Utils::deg2rad(drawable.GetRotation()));
 	body = world->CreateBody(&bodyDef);
 
-	b2PolygonShape shape;	
-	
-	int n = drawable.GetNbPoints();
-	
-	b2Vec2 vertices[n];
-//	std::cout << n << std::endl;
-	
-	for(int i=n-1; i>=0; i--)
-	{
-		sf::Vector2f p = drawable.GetPointPosition(i);
-		vertices[i].Set(p.x, -(p.y));
-//		std::cout << p.x << "," << -p.y << std::endl;
-	}
+	b2PolygonShape shape;
 
-	shape.SetAsBox(8.f, 2.f);
+	shape.SetAsBox(width/2, height/2);
 
 	b2FixtureDef fixtureDef;
 	fixtureDef.shape = &shape;
@@ -54,8 +56,8 @@ void Bloc::setup()
 
 void Bloc::actualizeBody()
 {
-//	if(body)
-//		body->SetTransform(b2Vec2(x(), -y()), -(Utils::deg2rad(rotation())));
+	//	if(body)
+	//		body->SetTransform(b2Vec2(x(), -y()), -(Utils::deg2rad(rotation())));
 
 }
 

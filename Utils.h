@@ -5,6 +5,13 @@
 class Utils
 {
 public:
+	enum MouseMode
+	{
+		Normal,
+		Selection,
+		Add
+	};
+
 	static const float PI = 3.14159265359;
 	static inline float deg2rad(float angle)
 	{

@@ -5,6 +5,9 @@
 #include <SFML/Graphics.hpp>
 
 #include "Bloc.h"
+#include "Canon.h"
+#include "Ball.h"
+#include "Utils.h"
 #include <vector>
 
 class World
@@ -13,24 +16,30 @@ class World
 public:
 	explicit World();
 
-	void addHorizontal();
-	void addVertical();
+	Bloc* getInactiveBloc();
+
+	void registerInactiveBloc();
+	void clearInactiveBloc();
 
 	void render(sf::RenderTarget *target);
 	void step();
+
+	void rotateCanon(int offset = 5);
+	void shoot();
 	
 private:
-//	QList<Bloc*> *blocs;
 	std::vector<Bloc*> *blocs;
+	std::vector<Ball*> *balls;
+
 	b2Body *ground;
+
 	b2World *world;
+
 	sf::Shape groundShape;
-	
-	
-//	QPolygonF poly;
 
-	Bloc* createBloc();
+	Bloc *inactiveBloc;
 
+	Canon *canon;
 };
 
 #endif // WORLD_H
