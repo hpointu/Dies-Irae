@@ -16,7 +16,7 @@ class World
 public:
 	explicit World();
 
-	Bloc* getInactiveBloc();
+	Bloc* getInactiveBloc(bool staticBloc = false);
 
 	void registerInactiveBloc();
 	void clearInactiveBloc();

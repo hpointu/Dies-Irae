@@ -2,14 +2,19 @@
 #include <iostream>
 #include "Const.h"
 
-Bloc::Bloc(b2World *w) :
+Bloc::Bloc(b2World *w, bool staticBloc) :
 		world(w),
 		body(0),
 		active(true),
 		width(50.f/SCALE),
-		height(8.f/SCALE)
+		height(8.f/SCALE),
+		staticBloc(staticBloc)
 {
-	drawable = sf::Shape::Rectangle(-width/2, -height/2, width/2, height/2, sf::Color(255,255,0,0), -1.f/SCALE, sf::Color(100,180,0));
+	sf::Color color(100,180,0);
+	if(staticBloc)
+		color = sf::Color(255, 255, 255);
+	
+	drawable = sf::Shape::Rectangle(-width/2, -height/2, width/2, height/2, sf::Color(255,255,0,0), -1.f/SCALE, color);
 
 	drawable.SetPosition(35/SCALE+(rand()%80/SCALE)*2, (rand()%10/SCALE)*2);
 
@@ -27,7 +32,11 @@ void Bloc::stretch(float offset)
 	if(width+offset > 0)
 	{
 		width += offset;
-		sf::Shape n = sf::Shape::Rectangle(-width/2, -height/2, width/2, height/2, sf::Color(255,255,0,0), -1.f/SCALE, sf::Color(100,180,0));;
+		sf::Color color(100,180,0);
+		if(staticBloc)
+			color = sf::Color(255, 255, 255);
+	
+		sf::Shape n = sf::Shape::Rectangle(-width/2, -height/2, width/2, height/2, sf::Color(255,255,0,0), -1.f/SCALE, color);;
 		n.SetPosition(drawable.GetPosition());
 		n.SetRotation(drawable.GetRotation());
 		drawable = n;
@@ -37,7 +46,7 @@ void Bloc::stretch(float offset)
 void Bloc::setup()
 {
 	b2BodyDef bodyDef;
-	bodyDef.type = b2_dynamicBody;
+	bodyDef.type = (staticBloc) ? b2_staticBody : b2_dynamicBody;
 	bodyDef.position.Set(drawable.GetPosition().x, -drawable.GetPosition().y);
 	bodyDef.angle = (Utils::deg2rad(drawable.GetRotation()));
 	body = world->CreateBody(&bodyDef);

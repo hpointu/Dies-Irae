@@ -8,7 +8,7 @@
 class Bloc
 {
 public:
-	explicit Bloc(b2World *w);
+	explicit Bloc(b2World *w, bool staticBloc = false);
 
 	void setup();
 	void adjust();
@@ -22,6 +22,7 @@ private:
 	b2Body *body;
 	sf::Shape drawable;
 	bool active;
+	bool staticBloc;
 
 	float width;
 	float height;

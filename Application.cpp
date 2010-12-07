@@ -70,6 +70,16 @@ void Application::eventManager()
 			Bloc *b = world->getInactiveBloc();
 			b->getDrawable()->SetPosition(x,y);
 		}
+		
+		if(e.Type == sf::Event::KeyPressed && (e.Key.Code == sf::Key::Z))
+		{
+			mouseMode = Utils::Add;
+			int x = window.GetInput().GetMouseX();
+			int y = window.GetInput().GetMouseY();
+			Bloc *b = world->getInactiveBloc(true);
+			b->getDrawable()->SetPosition(x,y);
+		}
+		
 		if(e.Type == sf::Event::KeyPressed && (e.Key.Code == sf::Key::R))
 		{
 			if(mouseMode == Utils::Add)

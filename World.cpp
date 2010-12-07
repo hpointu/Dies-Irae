@@ -85,11 +85,11 @@ void World::step()
 	world->ClearForces();
 }
 
-Bloc* World::getInactiveBloc()
+Bloc* World::getInactiveBloc(bool staticBloc)
 {
 	if(!inactiveBloc)
 	{
-		inactiveBloc = new Bloc(world);
+		inactiveBloc = new Bloc(world, staticBloc);
 	}
 	return inactiveBloc;
 }
