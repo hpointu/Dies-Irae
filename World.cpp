@@ -19,7 +19,7 @@ World::World() :
 
 	groundShape = sf::Shape::Rectangle(-350.f/SCALE, -10.f/SCALE, 350.f/SCALE, 10.f/SCALE,
 									   sf::Color(0,0,0,0),
-									   -1.f/Application::getInstance()->getCurrentZoom(),
+									   -1.f/SCALE,
 									   sf::Color(255,255,255));
 
 	groundShape.SetPosition(0, 150.f/SCALE);

@@ -176,10 +176,10 @@ void Application::eventManager()
 		{
 				if(mouseMode == Utils::Normal)
 				{
-					sf::Vector2f mousePos = -window.ConvertCoords(window.GetInput().GetMouseX(), window.GetInput().GetMouseY());
+					sf::Vector2f mousePos = window.ConvertCoords(window.GetInput().GetMouseX(), window.GetInput().GetMouseY());
 					if(window.GetInput().IsMouseButtonDown(sf::Mouse::Left))
 					{
-						//view->SetCenter(mousePos);
+						view->SetCenter(view->GetCenter() + clickPos - mousePos);
 					}
 				}
 		}
