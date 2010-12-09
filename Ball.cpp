@@ -3,15 +3,23 @@
 #include "Const.h"
 
 Ball::Ball(b2World *w) :
-		world(w)
+		Entity(w)
 {
-	drawable = sf::Shape::Circle(0,0, 5.f/SCALE, sf::Color(), -1.f/SCALE, sf::Color(200,0,0));
+	drawable = sf::Shape::Circle(0,0, 5.f/SCALE, sf::Color(220,220,0), -1.f/SCALE, sf::Color(200,0,0));
 }
 
 void Ball::impulse(int x, int y)
 {
-	b2Vec2 vect(x, y);
-	body->ApplyLinearImpulse(vect, body->GetWorldCenter());
+	if(true)
+	{
+		b2Vec2 vect(x, y);
+		body->ApplyLinearImpulse(vect, body->GetWorldCenter());
+	}
+}
+
+void Ball::torque(float force)
+{
+	body->ApplyTorque(force);
 }
 
 void Ball::adjust()
@@ -33,6 +41,7 @@ void Ball::setup()
 	fixtureDef.density = 1.f;
 	fixtureDef.friction = 0.5f;
 	fixtureDef.restitution = 0.3f;
+	fixtureDef.userData = this;
 
 	bodyDef.type = b2_dynamicBody;
 	bodyDef.bullet = true;

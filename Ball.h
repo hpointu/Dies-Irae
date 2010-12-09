@@ -3,8 +3,9 @@
 
 #include <SFML/Graphics.hpp>
 #include <Box2D/Box2D.h>
+#include "Entity.h"
 
-class Ball
+class Ball : public Entity
 {
 public:
 	Ball(b2World *w);
@@ -14,11 +15,11 @@ public:
 
 	void impulse(int x, int y);
 
+	void torque(float force);
+
 	sf::Shape* getDrawable();
 
 private:
-	b2World *world;
-	b2Body *body;
 	sf::Shape drawable;
 };
 

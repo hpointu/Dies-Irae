@@ -5,27 +5,36 @@
 #include <Box2D/Box2D.h>
 #include "Utils.h"
 
-class Bloc
+#include "Entity.h"
+
+class Bloc : public Entity
 {
 public:
-	explicit Bloc(b2World *w, bool staticBloc = false);
+	explicit Bloc(b2World *w);
 
-	void setup();
+	virtual void setup();
 	void adjust();
 	void actualizeBody();
 	sf::Shape* getDrawable();
 
 	void stretch(float offset = 5);
+	void enlarge(float offset = 5);
 
-private:
-	b2World *world;
-	b2Body *body;
+	virtual void redraw();
+
+	virtual void onCollision(Entity *other);
+
+protected:
+
 	sf::Shape drawable;
+
+
 	bool active;
-	bool staticBloc;
 
 	float width;
 	float height;
+
+	sf::Color color;
 };
 
 #endif // BLOC_H

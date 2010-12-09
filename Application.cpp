@@ -2,6 +2,11 @@
 #include <math.h>
 #include "Const.h"
 #include <iostream>
+#include <algorithm>
+
+#define WIDTH 1000
+#define HEIGHT 600
+
 Application::Application() :
 		running(false)
 {
@@ -13,9 +18,9 @@ void Application::setup()
 {
 	sf::WindowSettings settings;
 	settings.AntialiasingLevel = 2;
-	window.Create(sf::VideoMode(750, 370, 32), "Dies Irae", sf::Style::Close, settings);
+	window.Create(sf::VideoMode(WIDTH, HEIGHT, 32), "Dies Irae", sf::Style::Close, settings);
 
-	view = new sf::View(sf::Vector2f(0, 0), sf::Vector2f(375,185));
+	view = new sf::View(sf::Vector2f(0, 0), sf::Vector2f(WIDTH/2,HEIGHT/2));
 	view->Zoom(SCALE);
 	currentZoom = SCALE;
 
@@ -23,6 +28,25 @@ void Application::setup()
 
 	mouseMode = Utils::Normal;
 	world = new World();
+}
+
+void Application::enqueueToDelete(Entity *e)
+{
+	toDelete.push_back(e);
+}
+
+void Application::deleteEntities()
+{
+	std::sort(toDelete.begin(), toDelete.end());
+	int i = 0;
+	while(i<toDelete.size())
+	{
+		Entity *e = toDelete.at(i++);
+		while(i<toDelete.size() && toDelete.at(i) == e)
+			++i;
+		e->deleteMe();
+	}
+	toDelete.clear();
 }
 
 void Application::run()
@@ -85,7 +109,7 @@ void Application::eventManager()
 			if(mouseMode == Utils::Add)
 			{
 				Bloc *b = world->getInactiveBloc();
-				b->getDrawable()->SetRotation(b->getDrawable()->GetRotation()-30);
+				b->getDrawable()->SetRotation(b->getDrawable()->GetRotation()-10);
 			}
 		}
 		if(e.Type == sf::Event::KeyPressed && (e.Key.Code == sf::Key::S))
@@ -104,6 +128,22 @@ void Application::eventManager()
 				b->stretch(-5);
 			}
 		}
+		if(e.Type == sf::Event::KeyPressed && (e.Key.Code == sf::Key::X))
+		{
+			if(mouseMode == Utils::Add)
+			{
+				Bloc *b = world->getInactiveBloc();
+				b->enlarge();
+			}
+		}
+		if(e.Type == sf::Event::KeyPressed && (e.Key.Code == sf::Key::W))
+		{
+			if(mouseMode == Utils::Add)
+			{
+				Bloc *b = world->getInactiveBloc();
+				b->enlarge(-5);
+			}
+		}
 		if(e.Type == sf::Event::KeyPressed && (e.Key.Code == sf::Key::Escape))
 		{
 			mouseMode = Utils::Normal;
@@ -114,6 +154,7 @@ void Application::eventManager()
 			if(mouseMode == Utils::Normal)
 			{
 				world->rotateCanon(2);
+//				world->accel(4.f);
 			}
 		}
 		if(e.Type == sf::Event::KeyPressed && (e.Key.Code == sf::Key::Right))
@@ -121,6 +162,7 @@ void Application::eventManager()
 			if(mouseMode == Utils::Normal)
 			{
 				world->rotateCanon(-2);
+//				world->accel(-4.f);
 			}
 		}
 
@@ -179,7 +221,9 @@ void Application::eventManager()
 					sf::Vector2f mousePos = window.ConvertCoords(window.GetInput().GetMouseX(), window.GetInput().GetMouseY());
 					if(window.GetInput().IsMouseButtonDown(sf::Mouse::Left))
 					{
-						view->SetCenter(view->GetCenter() + clickPos - mousePos);
+						//view->SetCenter(view->GetCenter() + clickPos - mousePos);
+						view->Move(clickPos - mousePos);
+//						clickPos = mousePos;
 					}
 				}
 		}

@@ -2,23 +2,26 @@
 #include <iostream>
 #include "Const.h"
 
-Bloc::Bloc(b2World *w, bool staticBloc) :
-		world(w),
-		body(0),
+Bloc::Bloc(b2World *w) :
+		Entity(w),
 		active(true),
-		width(50.f/SCALE),
-		height(8.f/SCALE),
-		staticBloc(staticBloc)
+		width(8.f/SCALE),
+		height(50.f/SCALE)
 {
-	sf::Color color(100,180,0);
-	if(staticBloc)
-		color = sf::Color(255, 255, 255);
-	
-	drawable = sf::Shape::Rectangle(-width/2, -height/2, width/2, height/2, sf::Color(255,255,0,0), -1.f/SCALE, color);
-
+	color = sf::Color(255, 255, 255);
 	drawable.SetPosition(35/SCALE+(rand()%80/SCALE)*2, (rand()%10/SCALE)*2);
+	redraw();
+}
 
+void Bloc::redraw()
+{
+	sf::Vector2f pos = drawable.GetPosition();
+	float rot = drawable.GetRotation();
 
+	drawable = sf::Shape::Rectangle(-width/2, -height/2, width/2, height/2, sf::Color(100,255,0,0), -1.f/SCALE, color);
+
+	drawable.SetRotation(rot);
+	drawable.SetPosition(pos);
 }
 
 sf::Shape* Bloc::getDrawable()
@@ -29,24 +32,27 @@ sf::Shape* Bloc::getDrawable()
 void Bloc::stretch(float offset)
 {
 	offset /= SCALE;
-	if(width+offset > 0)
+	if(height+offset > 1.f/SCALE)
+	{
+		height += offset;
+		redraw();
+	}
+}
+
+void Bloc::enlarge(float offset)
+{
+	offset /= SCALE;
+	if(width+offset > 1.f/SCALE)
 	{
 		width += offset;
-		sf::Color color(100,180,0);
-		if(staticBloc)
-			color = sf::Color(255, 255, 255);
-	
-		sf::Shape n = sf::Shape::Rectangle(-width/2, -height/2, width/2, height/2, sf::Color(255,255,0,0), -1.f/SCALE, color);;
-		n.SetPosition(drawable.GetPosition());
-		n.SetRotation(drawable.GetRotation());
-		drawable = n;
+		redraw();
 	}
 }
 
 void Bloc::setup()
 {
 	b2BodyDef bodyDef;
-	bodyDef.type = (staticBloc) ? b2_staticBody : b2_dynamicBody;
+	bodyDef.type = b2_staticBody;
 	bodyDef.position.Set(drawable.GetPosition().x, -drawable.GetPosition().y);
 	bodyDef.angle = (Utils::deg2rad(drawable.GetRotation()));
 	body = world->CreateBody(&bodyDef);
@@ -59,10 +65,16 @@ void Bloc::setup()
 	fixtureDef.shape = &shape;
 	fixtureDef.density = 1.f;
 	fixtureDef.friction = 0.5f;
+	fixtureDef.userData = this;
 
 	body->CreateFixture(&fixtureDef);
 }
 
+
+void Bloc::onCollision(Entity *)
+{
+
+}
 
 void Bloc::actualizeBody()
 {
@@ -73,7 +85,7 @@ void Bloc::actualizeBody()
 
 void Bloc::adjust()
 {
-	if(active)
+	if(active && body)
 	{
 		b2Vec2 position = body->GetPosition();
 		float32 angle = body->GetAngle();

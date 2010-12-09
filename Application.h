@@ -2,10 +2,13 @@
 #define APPLICATION_H
 
 #include <SFML/Graphics.hpp>
+#include <vector>
+
 #include "World.h"
 #include "PausableClock.cpp"
 #include "Utils.h"
 #include "Singleton.h"
+#include "Entity.h"
 
 class Application : public Singleton<Application>
 {
@@ -16,6 +19,9 @@ public:
 	void run();
 
 	float getCurrentZoom();
+
+	void enqueueToDelete(Entity *e);
+	void deleteEntities();
 
 private:
 	Application();
@@ -31,6 +37,10 @@ private:
 	sf::View *view;
 
 	sf::Vector2f clickPos;
+
+	std::vector<Entity*> toDelete;
+
+
 };
 
 #endif // APPLICATION_H

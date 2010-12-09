@@ -5,13 +5,14 @@ LDFLAGS = 	-lsfml-graphics -lsfml-window -lsfml-system -lBox2D
 SRC =		main.cpp \
 			PausableClock.cpp \
 			World.cpp \
+			DBloc.cpp \
 			Bloc.cpp \
 			Application.cpp \
 			Canon.cpp \
-			Ball.cpp
-
-OBJ = 	$(SRC:.c=.o)	
-
+			Ball.cpp \
+			Entity.cpp \
+			ContactListener.cpp \
+			Ground.cpp
 
 BIN = 	DiesIrae
 
@@ -19,7 +20,7 @@ OBJ = 	$(SRC:.cpp=.o)
 DEP = 	$(SRC:.cpp=.d)
 
 %.o: %.cpp
-	$(CXX) -g -o $@ -c $<
+	$(CXX) -O1 -g -o $@ -c $<
 
 %.d: %.cpp
 	$(CXX) $< -MM -o $@
@@ -27,7 +28,7 @@ DEP = 	$(SRC:.cpp=.d)
 all: $(BIN)
 
 $(BIN): $(OBJ)
-	$(LD) $(LDFLAGS) -o $@ $+
+	$(LD) -o $@ $+ $(LDFLAGS)
 
 clean:
 	@rm *.o *.d
