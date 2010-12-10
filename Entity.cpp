@@ -28,4 +28,5 @@ float Entity::getMass()
 void Entity::deleteMe()
 {
 	world->DestroyBody(body);
+	body = 0;
 }
