@@ -26,3 +26,7 @@ DBloc.h
 DBloc.cpp
 Ground.h
 Ground.cpp
+ImgAnim.h
+ImgAnim.cpp
+Anim.h
+Anim.cpp

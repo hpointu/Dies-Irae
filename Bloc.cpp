@@ -8,25 +8,29 @@ Bloc::Bloc(b2World *w) :
 		width(8.f/SCALE),
 		height(50.f/SCALE)
 {
+	drawable = new sf::Shape();
+	
 	color = sf::Color(255, 255, 255);
-	drawable.SetPosition(35/SCALE+(rand()%80/SCALE)*2, (rand()%10/SCALE)*2);
+	drawable->SetPosition(35/SCALE+(rand()%80/SCALE)*2, (rand()%10/SCALE)*2);
 	redraw();
 }
 
 void Bloc::redraw()
 {
-	sf::Vector2f pos = drawable.GetPosition();
-	float rot = drawable.GetRotation();
+	sf::Vector2f pos = drawable->GetPosition();
+	float rot = drawable->GetRotation();
 
-	drawable = sf::Shape::Rectangle(-width/2, -height/2, width/2, height/2, sf::Color(100,255,0,0), -1.f/SCALE, color);
+	shape = sf::Shape::Rectangle(-width/2, -height/2, width/2, height/2, sf::Color(100,255,0,0), -1.f/SCALE, color);
 
-	drawable.SetRotation(rot);
-	drawable.SetPosition(pos);
+	drawable = &shape;
+
+	drawable->SetRotation(rot);
+	drawable->SetPosition(pos);
 }
 
-sf::Shape* Bloc::getDrawable()
+sf::Drawable* Bloc::getDrawable()
 {
-	return &drawable;
+	return drawable;
 }
 
 void Bloc::stretch(float offset)
@@ -53,8 +57,8 @@ void Bloc::setup()
 {
 	b2BodyDef bodyDef;
 	bodyDef.type = b2_staticBody;
-	bodyDef.position.Set(drawable.GetPosition().x, -drawable.GetPosition().y);
-	bodyDef.angle = (Utils::deg2rad(drawable.GetRotation()));
+	bodyDef.position.Set(drawable->GetPosition().x, -drawable->GetPosition().y);
+	bodyDef.angle = (Utils::deg2rad(drawable->GetRotation()));
 	body = world->CreateBody(&bodyDef);
 
 	b2PolygonShape shape;
@@ -89,7 +93,7 @@ void Bloc::adjust()
 	{
 		b2Vec2 position = body->GetPosition();
 		float32 angle = body->GetAngle();
-		drawable.SetPosition(position.x, -position.y);
-		drawable.SetRotation((Utils::rad2deg(angle)));
+		drawable->SetPosition(position.x, -position.y);
+		drawable->SetRotation((Utils::rad2deg(angle)));
 	}
 }

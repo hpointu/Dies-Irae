@@ -3,13 +3,16 @@
 #include <math.h>
 #include <iostream>
 #include "Application.h"
+#include "ImgAnim.h"
 
 DBloc::DBloc(b2World *w)
-	: Bloc(w),
-	fragility(1.f)
+	: Bloc(w)
 {
-
+	fragility = 1.f;
 	redraw();
+	explodeImg = new sf::Image();
+	explodeImg->LoadFromFile("img/explode.png");
+	
 }
 
 
@@ -17,8 +20,8 @@ void DBloc::setup()
 {
 	b2BodyDef bodyDef;
 	bodyDef.type = b2_dynamicBody;
-	bodyDef.position.Set(drawable.GetPosition().x, -drawable.GetPosition().y);
-	bodyDef.angle = (Utils::deg2rad(drawable.GetRotation()));
+	bodyDef.position.Set(drawable->GetPosition().x, -drawable->GetPosition().y);
+	bodyDef.angle = (Utils::deg2rad(drawable->GetRotation()));
 	body = world->CreateBody(&bodyDef);
 
 	b2PolygonShape shape;
@@ -52,6 +55,18 @@ void DBloc::deleteMe()
 {
 	Bloc::deleteMe();
 	color = sf::Color(100,100,100, 100);
+/*
+	sf::Vector2f npos = drawable->GetPosition();
+	npos.y -= height/2/SCALE;
+	npos.x -= width/2/SCALE;
+
+	ImgAnim *img = new ImgAnim(*explodeImg, 2, 1,
+										npos,
+										sf::Vector2f(1.f/SCALE, 1.f/SCALE),
+										drawable->GetRotation());
+	img->setDelay(1.f);
+	drawable = img;
+*/	
 	Bloc::redraw();
 }
 
@@ -63,18 +78,21 @@ void DBloc::onCollision(Entity *other)
 		b2Vec2 velo = other->getVelocity();
 		float val = ::sqrt((velo.x*velo.x) + (velo.y*velo.y));
 
+		// other strength
+		val *= other->getStrength();
+
 		// ratio : other's mass VS mine. Who is the stronger ?
 		val *= other->getMass()/getMass();
 
 		// my own velocity is hurting me
 		velo = getVelocity();
-		val += ::sqrt((velo.x*velo.x) + (velo.y*velo.y));
+		val += ::sqrt((velo.x*velo.x) + (velo.y*velo.y))/2;
 
 		// fragility factor
 		val *= fragility;
-
+		
 		// I don't care about scratches
-		if(val>1 && pv > 0)
+		if(val>=2 && pv > 0)
 			pv -= val;
 
 		if(pv <= 0)

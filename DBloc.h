@@ -4,6 +4,7 @@
 #include <Box2D/Box2D.h>
 
 #include "Bloc.h"
+#include <SFML/Graphics.hpp>
 
 class DBloc : public Bloc
 {
@@ -16,9 +17,10 @@ public:
 	virtual void redraw();
 
 	virtual void deleteMe();
-
+	
 private:
-	float fragility;
+	sf::Image *explodeImg;
+	
 };
 
 #endif // DBLOC_H

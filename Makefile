@@ -1,5 +1,6 @@
 CXX = 		g++
 LD = 			g++
+LDFLAGS_S = -lsfml-graphics -lsfml-window -lsfml-system -lBox2D-static
 LDFLAGS = 	-lsfml-graphics -lsfml-window -lsfml-system -lBox2D
 
 SRC =		main.cpp \
@@ -12,7 +13,9 @@ SRC =		main.cpp \
 			Ball.cpp \
 			Entity.cpp \
 			ContactListener.cpp \
-			Ground.cpp
+			Ground.cpp \
+			Anim.cpp \
+			ImgAnim.cpp
 
 BIN = 	DiesIrae
 
@@ -20,7 +23,7 @@ OBJ = 	$(SRC:.cpp=.o)
 DEP = 	$(SRC:.cpp=.d)
 
 %.o: %.cpp
-	$(CXX) -O1 -g -o $@ -c $<
+	$(CXX) -O1 -Wall -g -o $@ -c $<
 
 %.d: %.cpp
 	$(CXX) $< -MM -o $@
@@ -28,7 +31,7 @@ DEP = 	$(SRC:.cpp=.d)
 all: $(BIN)
 
 $(BIN): $(OBJ)
-	$(LD) -o $@ $+ $(LDFLAGS)
+	$(LD) -o $@ $+ $(LDFLAGS_S)
 
 clean:
 	@rm *.o *.d

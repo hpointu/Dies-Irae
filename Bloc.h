@@ -15,7 +15,7 @@ public:
 	virtual void setup();
 	void adjust();
 	void actualizeBody();
-	sf::Shape* getDrawable();
+	sf::Drawable* getDrawable();
 
 	void stretch(float offset = 5);
 	void enlarge(float offset = 5);
@@ -26,8 +26,8 @@ public:
 
 protected:
 
-	sf::Shape drawable;
-
+	sf::Drawable *drawable;
+	sf::Shape shape;
 
 	bool active;
 

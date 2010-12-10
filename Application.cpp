@@ -38,7 +38,7 @@ void Application::enqueueToDelete(Entity *e)
 void Application::deleteEntities()
 {
 	std::sort(toDelete.begin(), toDelete.end());
-	int i = 0;
+	unsigned int i = 0;
 	while(i<toDelete.size())
 	{
 		Entity *e = toDelete.at(i++);

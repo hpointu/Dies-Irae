@@ -15,11 +15,19 @@ public:
 
 	virtual void deleteMe();
 
+	inline float getStrength()
+	{
+		return strength;
+	}
+
 protected:
 	b2World *world;
 	b2Body *body;
 
 	int pv;
+	
+	float fragility;
+	float strength;
 };
 
 #endif // ENTITY_H

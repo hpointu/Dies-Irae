@@ -3,7 +3,9 @@
 
 Entity::Entity(b2World *w)
 	: world(w),
-	pv(100)
+	  pv(100),
+	  fragility(1.f),
+	  strength(1.f)
 {
 }
 

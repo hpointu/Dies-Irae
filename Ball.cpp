@@ -2,10 +2,11 @@
 #include <iostream>
 #include "Const.h"
 
-Ball::Ball(b2World *w) :
-		Entity(w)
+Ball::Ball(b2World *w)
+	: Entity(w)
 {
 	drawable = sf::Shape::Circle(0,0, 5.f/SCALE, sf::Color(220,220,0), -1.f/SCALE, sf::Color(200,0,0));
+	strength = 5.f;
 }
 
 void Ball::impulse(int x, int y)

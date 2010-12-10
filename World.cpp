@@ -76,9 +76,9 @@ void World::step()
 
 	float32 tstep = 1.0f/20.0f;
 	world->Step(tstep, 20, 20);
-	for(int i=0; i<blocs->size(); i++)
+	for(unsigned int i=0; i<blocs->size(); i++)
 		blocs->at(i)->adjust();
-	for(int i=0; i<balls->size(); i++)
+	for(unsigned int i=0; i<balls->size(); i++)
 		balls->at(i)->adjust();
 	world->ClearForces();
 
@@ -108,9 +108,9 @@ void World::clearInactiveBloc()
 
 void World::render(sf::RenderTarget *target)
 {
-	for(int i=0; i<blocs->size(); i++)
+	for(unsigned int i=0; i<blocs->size(); i++)
 		target->Draw(*blocs->at(i)->getDrawable());
-	for(int i=0; i<balls->size(); i++)
+	for(unsigned int i=0; i<balls->size(); i++)
 		target->Draw(*balls->at(i)->getDrawable());
 	target->Draw(ground->groundShape);
 	target->Draw(*canon->getDrawable());
