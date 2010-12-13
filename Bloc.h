@@ -13,7 +13,7 @@ public:
 	explicit Bloc(b2World *w);
 
 	virtual void setup();
-	void adjust();
+	virtual void adjust();
 	void actualizeBody();
 	sf::Drawable* getDrawable();
 
@@ -23,6 +23,8 @@ public:
 	virtual void redraw();
 
 	virtual void onCollision(Entity *other);
+
+	virtual void render(sf::RenderTarget *t);
 
 protected:
 

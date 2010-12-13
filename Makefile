@@ -1,6 +1,6 @@
 CXX = 		g++
 LD = 			g++
-LDFLAGS_S = -lsfml-graphics -lsfml-window -lsfml-system -lBox2D-static
+LDFLAGS_S = -lsfml-graphics -lsfml-window -lsfml-system -lBox2D
 LDFLAGS = 	-lsfml-graphics -lsfml-window -lsfml-system -lBox2D
 
 SRC =		main.cpp \
@@ -15,7 +15,8 @@ SRC =		main.cpp \
 			ContactListener.cpp \
 			Ground.cpp \
 			Anim.cpp \
-			ImgAnim.cpp
+			ImgAnim.cpp \
+			Player.cpp
 
 BIN = 	DiesIrae
 

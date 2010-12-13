@@ -6,7 +6,8 @@
 #include "ContactListener.h"
 
 World::World() :
-		inactiveBloc(0)
+		inactiveBloc(0),
+		currentPlayerId(0)
 {
 	blocs = new std::vector<Bloc*>();
 	balls = new std::vector<Ball*>();
@@ -27,12 +28,35 @@ World::World() :
 	}
 
 
-	canon = new Canon();
-	canon->getDrawable()->SetPosition(-350.f/SCALE, 235.f/SCALE);
+	Player *p1 = new Player(world, sf::Color(0,0,255));
+	Player *p2 = new Player(world, sf::Color(255,255,0));
 
-//	perso = new Ball(world);
-//	perso->getDrawable()->SetPosition(-300.f/SCALE, 130.f/SCALE);
-//	perso->setup();
+	players = new std::vector<Player*>();
+	players->push_back(p1);
+	players->push_back(p2);
+
+	p1->setCanonPos(-350.f/SCALE, 205.f/SCALE);
+	p2->setCanonPos(350.f/SCALE, 205.f/SCALE);
+
+	p1->setPlayerPos(-400.f/SCALE, 230.f/SCALE);
+	p2->setPlayerPos(400.f/SCALE, 235.f/SCALE);
+
+	p1->setup();
+	p2->setup();
+
+	p1->getCanon()->rotate(60);
+	p2->getCanon()->rotate(120);
+
+	currentPlayer = players->at(currentPlayerId);
+
+}
+
+void World::nextPlayer()
+{
+	if(++currentPlayerId >= players->size())
+		currentPlayerId = 0;
+
+	currentPlayer = players->at(currentPlayerId);
 }
 
 void World::accel(float force)
@@ -43,17 +67,18 @@ void World::accel(float force)
 
 void World::rotateCanon(int offset)
 {
-	canon->rotate(offset);
+	currentPlayer->getCanon()->rotate(offset);
 }
 
 void World::changeCanonPower(float offset)
 {
-	canon->changePower(offset);
+	currentPlayer->getCanon()->changePower(offset);
 }
 
 void World::shoot()
 {
-	//perso->impulse(0.f, 30.f);
+	Canon *canon = currentPlayer->getCanon();
+
 	Ball *ball = new Ball(world);
 	ball->getDrawable()->SetPosition(canon->getDrawable()->GetPosition());
 	balls->push_back(ball);
@@ -64,22 +89,21 @@ void World::shoot()
 	float x = (10+(canon->getPower()*20))*cos(rot);
 	float y = (10+(canon->getPower()*20))*sin(rot);
 
-//	std::cout << "rot: " << rot << std::endl;
-//	std::cout << x << "," << y << std::endl;
-
 	ball->impulse(x, y);
+
+	nextPlayer();
 }
 
 void World::step()
 {
-
-
 	float32 tstep = 1.0f/20.0f;
 	world->Step(tstep, 20, 20);
 	for(unsigned int i=0; i<blocs->size(); i++)
 		blocs->at(i)->adjust();
 	for(unsigned int i=0; i<balls->size(); i++)
 		balls->at(i)->adjust();
+	for(unsigned int i=0; i<players->size(); i++)
+		players->at(i)->adjust();
 	world->ClearForces();
 
 	Application::getInstance()->deleteEntities();
@@ -109,12 +133,14 @@ void World::clearInactiveBloc()
 void World::render(sf::RenderTarget *target)
 {
 	for(unsigned int i=0; i<blocs->size(); i++)
-		target->Draw(*blocs->at(i)->getDrawable());
+		blocs->at(i)->render(target);
 	for(unsigned int i=0; i<balls->size(); i++)
-		target->Draw(*balls->at(i)->getDrawable());
-	target->Draw(ground->groundShape);
-	target->Draw(*canon->getDrawable());
+		balls->at(i)->render(target);
+	for(unsigned int i=0; i<players->size(); i++)
+		players->at(i)->render(target);
+	ground->render(target);
+
 	if(inactiveBloc)
 		target->Draw(*inactiveBloc->getDrawable());
-	//target->Draw(*perso->getDrawable());
+
 }

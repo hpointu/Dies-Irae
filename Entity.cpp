@@ -21,7 +21,6 @@ b2Vec2 Entity::getVelocity()
 	return body->GetLinearVelocity();
 }
 
-
 float Entity::getMass()
 {
 	return body->GetMass();

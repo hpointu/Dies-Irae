@@ -6,7 +6,7 @@
 class Canon
 {
 public:
-    Canon();
+	Canon(sf::Color c);
 
 	sf::Shape* getDrawable();
 
@@ -20,6 +20,8 @@ private:
 	float power;
 
 	void make();
+
+	sf::Color color;
 };
 
 #endif // CANON_H

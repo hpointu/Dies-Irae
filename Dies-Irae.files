@@ -30,3 +30,5 @@ ImgAnim.h
 ImgAnim.cpp
 Anim.h
 Anim.cpp
+Player.h
+Player.cpp

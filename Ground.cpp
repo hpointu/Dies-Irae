@@ -15,7 +15,7 @@ void Ground::setup()
 	fixtureDef.shape = &shape;
 	fixtureDef.userData = this;
 
-	groundShape = sf::Shape::Rectangle(-350.f/SCALE, -10.f/SCALE, 350.f/SCALE, 10.f/SCALE,
+	groundShape = sf::Shape::Rectangle(-450.f/SCALE, -10.f/SCALE, 450.f/SCALE, 10.f/SCALE,
 									   sf::Color(0,0,0,0),
 									   -1.f/SCALE,
 									   sf::Color(255,255,255));
@@ -24,9 +24,14 @@ void Ground::setup()
 
 	bodyDef.position.Set(groundShape.GetPosition().x, -groundShape.GetPosition().y);
 
-	shape.SetAsBox(350.f/SCALE, 10.f/SCALE);
+	shape.SetAsBox(450.f/SCALE, 10.f/SCALE);
 
 	body = world->CreateBody(&bodyDef);
 
 	body->CreateFixture(&fixtureDef);
+}
+
+void Ground::render(sf::RenderTarget *t)
+{
+	t->Draw(groundShape);
 }

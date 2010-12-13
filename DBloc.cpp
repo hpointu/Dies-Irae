@@ -8,7 +8,7 @@
 DBloc::DBloc(b2World *w)
 	: Bloc(w)
 {
-	fragility = 1.f;
+	fragility = 0.9f;
 	redraw();
 	explodeImg = new sf::Image();
 	explodeImg->LoadFromFile("img/explode.png");
@@ -54,7 +54,7 @@ void DBloc::redraw()
 void DBloc::deleteMe()
 {
 	Bloc::deleteMe();
-	color = sf::Color(100,100,100, 100);
+	color = sf::Color(100,100,100, 0);
 /*
 	sf::Vector2f npos = drawable->GetPosition();
 	npos.y -= height/2/SCALE;

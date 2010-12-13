@@ -18,6 +18,7 @@ public:
 	void torque(float force);
 
 	sf::Shape* getDrawable();
+	virtual void render(sf::RenderTarget *t);
 
 private:
 	sf::Shape drawable;

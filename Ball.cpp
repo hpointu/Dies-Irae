@@ -59,6 +59,11 @@ void Ball::setup()
 	
 }
 
+void Ball::render(sf::RenderTarget *t)
+{
+	t->Draw(drawable);
+}
+
 sf::Shape* Ball::getDrawable()
 {
 	return &drawable;

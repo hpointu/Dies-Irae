@@ -43,6 +43,11 @@ void Bloc::stretch(float offset)
 	}
 }
 
+void Bloc::render(sf::RenderTarget *t)
+{
+	t->Draw(*drawable);
+}
+
 void Bloc::enlarge(float offset)
 {
 	offset /= SCALE;
@@ -67,7 +72,7 @@ void Bloc::setup()
 
 	b2FixtureDef fixtureDef;
 	fixtureDef.shape = &shape;
-	fixtureDef.density = 1.f;
+	fixtureDef.density = 2.4f;
 	fixtureDef.friction = 0.5f;
 	fixtureDef.userData = this;
 

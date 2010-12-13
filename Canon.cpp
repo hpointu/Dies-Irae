@@ -1,8 +1,9 @@
 #include "Canon.h"
 #include "Const.h"
 
-Canon::Canon() :
-		power(0.5f)
+Canon::Canon(sf::Color c) :
+		power(0.5f),
+		color(c)
 {
 	make();
 }
@@ -19,13 +20,13 @@ void Canon::make()
 	n.SetPosition(drawable.GetPosition());
 	n.SetRotation(drawable.GetRotation());
 
-	n.AddPoint(0, -4.f/SCALE, sf::Color(), sf::Color(0,0,180));
-	n.AddPoint((8+power*40.f)/SCALE, -4.f/SCALE, sf::Color(), sf::Color(0,0,180));
+	n.AddPoint(0, -4.f/SCALE, sf::Color(),color);
+	n.AddPoint((8+power*40.f)/SCALE, -4.f/SCALE, sf::Color(), color);
 
-	n.AddPoint(((8+power*40.f)+10.f)/SCALE, 0/SCALE, sf::Color(), sf::Color(0,0,180));
+	n.AddPoint(((8+power*40.f)+10.f)/SCALE, 0/SCALE, sf::Color(), color);
 
-	n.AddPoint((8+power*40.f)/SCALE, 4.f/SCALE, sf::Color(), sf::Color(0,0,180));
-	n.AddPoint(0, 4.f/SCALE, sf::Color(), sf::Color(0,0,180));
+	n.AddPoint((8+power*40.f)/SCALE, 4.f/SCALE, sf::Color(), color);
+	n.AddPoint(0, 4.f/SCALE, sf::Color(), color);
 
 	n.EnableFill(false);
 	n.SetOutlineWidth(-1.f/SCALE);

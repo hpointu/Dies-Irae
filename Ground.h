@@ -14,6 +14,8 @@ public:
 	void setup();
 	sf::Shape groundShape;
 
+	virtual void render(sf::RenderTarget *t);
+
 };
 
 #endif // GROUND_H

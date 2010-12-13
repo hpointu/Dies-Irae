@@ -10,6 +10,7 @@
 #include "Ball.h"
 #include "Utils.h"
 #include "Ground.h"
+#include "Player.h"
 
 #include <vector>
 
@@ -33,22 +34,31 @@ public:
 	void accel(float force);
 
 	void shoot();
+
+	inline Player* getCurrentPlayer(){return currentPlayer;}
+
+	void nextPlayer();
 	
 private:
 	std::vector<Bloc*> *blocs;
 	std::vector<Ball*> *balls;
+	std::vector<Player*> *players;
 
 	Ball *perso;
 
 	Ground *ground;
 
 	b2World *world;
-
-
-
 	Bloc *inactiveBloc;
 
-	Canon *canon;
+	unsigned int currentPlayerId;
+	Player *currentPlayer;
+
+
+
+
+
+//	Canon *canon;
 };
 
 #endif // WORLD_H

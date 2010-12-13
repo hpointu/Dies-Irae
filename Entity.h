@@ -2,6 +2,7 @@
 #define ENTITY_H
 
 #include <Box2D/Box2D.h>
+#include <SFML/Graphics.hpp>
 
 class Entity
 {
@@ -14,6 +15,8 @@ public:
 	virtual float getMass();
 
 	virtual void deleteMe();
+
+	virtual void render(sf::RenderTarget *t) = 0;
 
 	inline float getStrength()
 	{
