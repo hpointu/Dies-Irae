@@ -1,5 +1,5 @@
 /*
- *	TEST
+ *	TEST2
  */
 #ifndef CONST_H
 #define CONST_H
