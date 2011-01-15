@@ -5,9 +5,9 @@
 #include "Application.h"
 
 /* Modification dans la branche master */
-
 int main(int argc, char *argv[])
 {
+	// graine
 	srand(time(0));
 
 	Application *app = Application::getInstance();
