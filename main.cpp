@@ -4,7 +4,7 @@
 
 #include "Application.h"
 
-// Test
+/* Modification dans la branche master */
 
 int main(int argc, char *argv[])
 {
