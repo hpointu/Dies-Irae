@@ -1,0 +1,17 @@
+= Touches :
+
+A : ajouter une brique dynamique
+Z : Ajouter une brique statique
+Esc : Annuler l'ajout en cours
+Left/Right : pivoter le canon
+Up/Down : changer la puissance du canon
+Space : Tirer un boulet
+
+En cours d'ajout de brique :
+R : pivoter la brique
+S/Q : changer la taille verticale
+W/X : changer la taille horizontale
+Clic : poser la brique
+
+Molette Souris : Zoom +/-
+
